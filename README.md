@@ -1,16 +1,16 @@
 # realstate_app_ui
+My new ui work in flutter...
 
-A new Flutter project.
+## About
+Tried creating a simple, yet beautiful real estate app ui using FLUTTER.. 
+It uses the concepts of some very basic flutter widgets, including provider.
+The use of provider was not necessary, yet I used it in this app, so that I could implement the concepts I learned.
+### UI
+![welcome_screen](https://user-images.githubusercontent.com/63596895/164069621-55b87b90-f0e4-49c1-a0f9-8dbbfc39a44e.jpg)
+![overview_screen](https://user-images.githubusercontent.com/63596895/164069643-85908f5f-224e-4acb-8b50-b8f682309a6b.jpg)
+![detail_screen](https://user-images.githubusercontent.com/63596895/164069658-c0960650-1cf2-4ce5-ad05-b870c4106d34.jpg)
 
-## Getting Started
+## Credits
+The flutter code is completely written by me(ShishirRijal), however the ui concept was taken from Gurvinder Singh at dribbble.com 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+UI link -> https://dribbble.com/shots/15302134-Home-buy-and-rent-app/attachments/7057580?mode=media 
