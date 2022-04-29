@@ -205,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const SizedBox(height: 20.0),
                           ApartmentCard(
+                            id: currentApartment.id,
                             imageAddress: currentApartment.imageAddress,
                             city: currentApartment.city,
                             amount: currentApartment.amount,

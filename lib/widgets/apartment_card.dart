@@ -5,6 +5,7 @@ import '../constants.dart';
 import 'icon_text.dart';
 
 class ApartmentCard extends StatelessWidget {
+  final String id;
   final String imageAddress;
   final String city;
   final int amount;
@@ -16,6 +17,7 @@ class ApartmentCard extends StatelessWidget {
 
   const ApartmentCard({
     Key? key,
+    required this.id,
     required this.imageAddress,
     required this.city,
     required this.amount,
@@ -48,13 +50,16 @@ class ApartmentCard extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Image.asset(
-                  height: 200,
-                  width: mediaQuery.width * 1,
-                  imageAddress,
-                  fit: BoxFit.cover,
+              Hero(
+                tag: id,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.asset(
+                    height: 200,
+                    width: mediaQuery.width * 1,
+                    imageAddress,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(height: 8.0),

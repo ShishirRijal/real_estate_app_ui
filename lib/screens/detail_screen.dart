@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:realstate_app_ui/constants.dart';
 
 import '../models/apartment.dart';
+import '../widgets/icon_box.dart';
 import '../widgets/icon_text.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -47,13 +48,16 @@ class _DetailScreenState extends State<DetailScreen> {
                             children: [
                               Stack(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.asset(
-                                      widget.apartment.imageAddress,
-                                      fit: BoxFit.cover,
-                                      height: mediaQuery.height * 0.42,
-                                      width: double.infinity,
+                                  Hero(
+                                    tag: widget.apartment.id,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Image.asset(
+                                        widget.apartment.imageAddress,
+                                        fit: BoxFit.cover,
+                                        height: mediaQuery.height * 0.42,
+                                        width: double.infinity,
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -69,15 +73,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     right: 10.0,
                                     child: Consumer<Apartment>(
                                       builder: (context, myApartment, _) {
-                                        return IconBox(
-                                          icon: myApartment.isFavourite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          onPressed: () {
-                                            myApartment.toggleFavourite();
-                                          },
-                                          isSelected: myApartment.isFavourite,
-                                        );
+                                        return const FavouriteButton();
                                       },
                                     ),
                                   ),
@@ -302,21 +298,63 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
-class IconBox extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-  final bool isSelected;
-  const IconBox({
+class FavouriteButton extends StatefulWidget {
+  const FavouriteButton({
     Key? key,
-    required this.onPressed,
-    required this.icon,
-    this.isSelected = false,
   }) : super(key: key);
+  @override
+  State<FavouriteButton> createState() => _FavouriteButtonState();
+}
+
+class _FavouriteButtonState extends State<FavouriteButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation _colorAnimation;
+  late Animation _sizeAnimation;
+  bool _isSelected = false;
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    _colorAnimation =
+        ColorTween(begin: Colors.grey, end: Colors.red).animate(_controller);
+    _controller.addListener(() {
+      setState(() {});
+    });
+
+    _sizeAnimation = TweenSequence(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem(tween: Tween(begin: 30.0, end: 60.0), weight: 50),
+        TweenSequenceItem(tween: Tween(begin: 60.0, end: 30.0), weight: 50),
+      ],
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _isSelected = true;
+      } else {
+        _isSelected = false;
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () {
+        _isSelected ? _controller.reverse() : _controller.forward();
+      },
       child: Container(
         height: 45.0,
         width: 45.0,
@@ -326,9 +364,9 @@ class IconBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Icon(
-          icon,
-          size: 30.0,
-          color: isSelected ? Colors.red : Colors.black,
+          Icons.favorite_rounded,
+          size: _sizeAnimation.value,
+          color: _colorAnimation.value,
         ),
       ),
     );
